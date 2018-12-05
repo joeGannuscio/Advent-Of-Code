@@ -20,8 +20,8 @@ namespace AdventOfCode2018
                     Console.WriteLine(day2.GetResults());
                     break;
                 case "3":
-                    //var day3 = new Day3();
-                    //Console.WriteLine(day3.GetResults());
+                    var day3 = new Day3();
+                    Console.WriteLine(day3.GetResults());
                     break;
                 default:
                     Console.WriteLine("Not found");
