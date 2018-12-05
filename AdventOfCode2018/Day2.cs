@@ -23,7 +23,7 @@ namespace AdventOfCode2018
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("Day 2 Part 1 Solution: " + Part1(_input).ToString());
-
+            stringBuilder.Append("\nDay 2 Part 2 Solution: " + Part2(_input));
             return stringBuilder.ToString();
         }
 
@@ -39,9 +39,45 @@ namespace AdventOfCode2018
             return checksum;
         }
 
-        public int Part2(List<string> input)
+        public string Part2(List<string> input)
         {
-            return 0;
+            var differenceCount = 0;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach(var str in input)
+            {
+                foreach (var id in input)
+                {
+                    if (!id.Equals(str))
+                    {
+                        for (var i = 0; i < id.Length; i++)
+                        {
+                            if (!str[i].Equals(id[i]))
+                            {
+                                differenceCount++;
+                            }
+                            else
+                            {
+                                stringBuilder.Append(id[i]);
+                            }
+                        }
+
+                        if (differenceCount == 1)
+                        {
+                            return stringBuilder.ToString();
+                        }
+                        else
+                        {
+                            differenceCount = 0;
+                            stringBuilder.Clear();
+                        }
+                    }
+                }
+            }
+            
+
+            return "no results found";
+
         }
 
         private List<string> InputReader(string inputPath)

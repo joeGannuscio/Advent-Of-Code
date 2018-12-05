@@ -23,7 +23,7 @@ namespace AdventOfCode2018Tests
             var sampleInput = new List<string> { "abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz" };
             _day2 = new Day2();
             var result = _day2.Part2(sampleInput);
-            Assert.True(result.Equals("fgij"));
+            Assert.Equal("fgij",result);
         }
     }
 }
