@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
+//https://adventofcode.com/2018/day/4
+
 namespace AdventOfCode2018
 {
     public class Day4
