@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
+//https://adventofcode.com/2018/day/3
+
 namespace AdventOfCode2018
 {
     public class Day3
@@ -65,7 +67,6 @@ namespace AdventOfCode2018
         public string Part2(List<string> input, int gridWidth, int gridHeight)
         {
             var commandList = InputCleaner(input);
-            var result = 0;
             _cellArray = new Cell[gridWidth, gridHeight];
             GridInitializer(gridWidth, gridHeight);
 

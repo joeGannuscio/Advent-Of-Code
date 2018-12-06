@@ -18,6 +18,8 @@ namespace AdventOfCode2018Tests
             var height = 9;
             var day3 = new Day3();
             var result = day3.Part1(sampleInput, width, height);
+
+            Assert.Equal(expected, result);
         }
 
         [Fact]
@@ -29,6 +31,8 @@ namespace AdventOfCode2018Tests
             var height = 9;
             var day3 = new Day3();
             var result = day3.Part2(sampleInput, width, height);
+
+            Assert.Equal(expected, result);
         }
     }
 }
