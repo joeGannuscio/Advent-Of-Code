@@ -64,7 +64,51 @@ namespace AdventOfCode2018
 
         public string Part2(List<string> input, int gridWidth, int gridHeight)
         {
-            
+            var commandList = InputCleaner(input);
+            var result = 0;
+            _cellArray = new Cell[gridWidth, gridHeight];
+            GridInitializer(gridWidth, gridHeight);
+
+            foreach (var command in commandList)
+            {
+                //loop through width
+                //loop through height
+
+                for (int i = command.XPosition; i < command.XPosition + command.Width; i++)
+                {
+                    for (int j = command.YPosition; j < command.YPosition + command.Height; j++)
+                    {
+                        _cellArray[i, j].UseCount++;
+
+                    }
+                }
+            }
+
+            var hasOverlap = false;
+
+            foreach (var command in commandList)
+            {
+
+                hasOverlap = false;
+
+                for (int i = command.XPosition; i < command.XPosition + command.Width; i++)
+                {
+                    for (int j = command.YPosition; j < command.YPosition + command.Height; j++)
+                    {
+                        if (_cellArray[i, j].UseCount > 1)
+                        {
+                            hasOverlap = true;
+                        }
+                           
+                    }
+                }
+
+                if (!hasOverlap)
+                    return command.Id.ToString();
+            }
+
+            return "not found";
+
         }
 
         private List<string> InputReader(string inputPath)
