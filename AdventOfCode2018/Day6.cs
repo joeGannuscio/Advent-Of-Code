@@ -20,8 +20,8 @@ namespace AdventOfCode2018
         public string GetResults()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Day 5 Part 1 Solution: " + Part1(_input));
-            stringBuilder.Append("\nDay 5 Part 2 Solution: " + Part2(_input));
+            stringBuilder.Append("Day 6 Part 1 Solution: " + Part1(_input));
+            stringBuilder.Append("\nDay 6 Part 2 Solution: " + Part2(_input));
             return stringBuilder.ToString();
         }
 
