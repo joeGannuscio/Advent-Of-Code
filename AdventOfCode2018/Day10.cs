@@ -28,8 +28,12 @@ namespace AdventOfCode2018
             var time = 0;
             var userEntry = "";
 
+            
+
             while (!userEntry.Equals("stop"))
             {
+
+                Console.WriteLine(time.ToString()+'\n');
                 foreach (var point in input)
                 {
                     point.XPos += point.XVel;
@@ -41,17 +45,22 @@ namespace AdventOfCode2018
                 var yMin = input.Min(p => p.YPos);
                 var yMax = input.Max(p => p.YPos);
 
-                for (var i = yMin; i <= yMax; i++)
+                if (xMin > -200 && yMin > -200 && xMax < 300 && yMax < 300)
                 {
-                    for (var j = xMin; j <= xMax; j++)
+                    for (var i = yMin; i <= yMax; i++)
                     {
-                        Console.Write(input.Any(p => p.XPos == j && p.YPos == i) ? "*" : ".");
+                        for (var j = xMin; j <= xMax; j++)
+                        {
+                            Console.Write(input.Any(p => p.XPos == j && p.YPos == i) ? "*" : ".");
+                        }
+                        Console.WriteLine();
+                        
                     }
-                    Console.WriteLine();
+                    userEntry = Console.ReadLine();
                 }
-
+                time++;
                 
-                userEntry = Console.ReadLine();
+                
 
             }            
         }
