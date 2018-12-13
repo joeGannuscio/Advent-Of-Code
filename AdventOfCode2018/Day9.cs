@@ -3,6 +3,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
+//https://adventofcode.com/2018/day/9
+
 namespace AdventOfCode2018
 {
     public class Day9
