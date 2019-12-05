@@ -128,8 +128,5 @@ dmypy.json
 # vscode
 .vscode
 
-# Input Texts
-Inputs
-
 # Pyre type checker
 .pyre/
