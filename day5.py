@@ -1,6 +1,6 @@
 def main():
     inputs = readInput('Inputs/day5.txt')
-    #part1(inputs)
+    part1(inputs)
     part2(inputs)
 
 def part1(inputs):
