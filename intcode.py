@@ -1,18 +1,18 @@
 class Intcode:
-    def __init__(self, instructons):
+    def __init__(self, instructons, feedbackMode = False):
         self.memory = instructons
-        self.memory.extend([0]*10000)
+        self.feedbackMode = feedbackMode
         self.instructionPointer = 0
+        self.inputPointer = 0
         self.relativeBase = 0
         self.outputs = []
         self.inputs = []
+        self.done = False
 
     def run(self):
-        inputPointer = 0
-        relativeBase = 0
-        opCode, modes = self.processOpCode(self.memory[0])
+        opCode, modes = self.processOpCode(self.memory[self.instructionPointer])
 
-        while(opCode != 99):
+        while(True):
             if (opCode == 1): #add
                 param1 = self.getParameterValue(1, modes)
                 param2 = self.getParameterValue(2, modes)
@@ -26,13 +26,15 @@ class Intcode:
                 self.setValue(3, modes, value)
                 self.instructionPointer += 4
             elif (opCode == 3): #input
-                self.setValue(1, modes, self.inputs[inputPointer])
-                inputPointer += 1
+                self.setValue(1, modes, self.inputs[self.inputPointer])
+                self.inputPointer += 1
                 self.instructionPointer += 2
             elif (opCode == 4): #output
                 result = self.getParameterValue(1, modes)
                 self.instructionPointer += 2
                 self.outputs.append(result)
+                if self.feedbackMode:
+                    break
             elif (opCode == 5): #jump if true
                 param1 = self.getParameterValue(1, modes)
                 param2 = self.getParameterValue(2, modes)
@@ -62,7 +64,11 @@ class Intcode:
             elif (opCode == 9): #relative base offset
                 self.relativeBase += self.getParameterValue(1, modes)
                 self.instructionPointer += 2
+            elif (opCode == 99):
+                self.done = True
+                break
             else:
+                self.done = True
                 break
 
             opCode, modes = self.processOpCode(self.memory[self.instructionPointer])
