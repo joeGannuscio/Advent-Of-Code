@@ -1,4 +1,5 @@
 import itertools
+from intcode import Intcode
 
 def main():
     inputs = readInput('Inputs/day7.txt')
@@ -8,15 +9,20 @@ def main():
 def part1(inputs):
     vals = inputs[:]
     phases = list(itertools.permutations([0,1,2,3,4]))
-    
-    bigResult = 0
+
+    maxResult = 0
+
     for phase in phases:
-        result = 0
+    result = 0
         for p in phase:
-            result = runProgram(vals, (p, result))
-        if (result > bigResult):
-            bigResult = result
-    print(bigResult)
+            intcodeRunner = Intcode(inputs[:])
+            intcodeRunner.inputs = [p, result]
+            intcodeRunner.run()
+            result = intcodeRunner.outputs[-1]
+        if (result > maxResult):
+            maxResult = result
+
+    print(maxResult)
 
 def part2(inputs):
     vals = inputs[:]
@@ -50,7 +56,6 @@ def runProgram(steps, userInput):
             inputIndex += 1
             index += 2
         elif (opCode == 4): #output
-            #print('Output: ' + str(steps[steps[index + 1]]))
             result = steps[steps[index + 1]]
             index += 2
             return result

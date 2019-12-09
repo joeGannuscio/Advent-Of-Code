@@ -7,11 +7,17 @@ def main():
 
 def part1(inputs):
     intcodeRunner = Intcode(inputs[:])
-    intcodeRunner.run([1])
+    intcodeRunner.inputs = [1]
+    intcodeRunner.run()
+    results = intcodeRunner.outputs
+    print(results[-1])
 
 def part2(inputs):
     intcodeRunner = Intcode(inputs[:])
-    intcodeRunner.run([5])
+    intcodeRunner.inputs = [5]
+    intcodeRunner.run()
+    results = intcodeRunner.outputs
+    print(results[-1])
 
 def readInput(path):
     with open(path) as file:
