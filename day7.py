@@ -13,7 +13,7 @@ def part1(inputs):
     maxResult = 0
 
     for phase in phases:
-    result = 0
+        result = 0
         for p in phase:
             intcodeRunner = Intcode(inputs[:])
             intcodeRunner.inputs = [p, result]
