@@ -10,8 +10,6 @@ def part1(inputs):
     inputs[2] = 2
     vals = inputs[:]
 
-    print(runProgram(vals)[0])
-
     intcodeMachine = Intcode(vals)
     intcodeMachine.run()
     print(intcodeMachine.memory[0])
