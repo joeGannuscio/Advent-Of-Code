@@ -1,12 +1,15 @@
 class Intcode:
     def __init__(self, instructons):
         self.memory = instructons
+        self.memory.extend([0]*10000)
         self.instructionPointer = 0
+        self.relativeBase = 0
         self.outputs = []
         self.inputs = []
 
     def run(self):
         inputPointer = 0
+        relativeBase = 0
         opCode, modes = self.processOpCode(self.memory[0])
 
         while(opCode != 99):
@@ -56,6 +59,9 @@ class Intcode:
                 val =  1 if param1 == param2 else 0
                 self.setValue(3, modes, val)
                 self.instructionPointer += 4
+            elif (opCode == 9): #relative base offset
+                self.relativeBase += self.getParameterValue(1, modes)
+                self.instructionPointer += 2
             else:
                 break
 
@@ -65,16 +71,20 @@ class Intcode:
         self.inputs.append(value)
 
     def getParameterValue(self, paramNumber, modes):
-        if modes[paramNumber - 1] == 0:
+        if modes[paramNumber - 1] == 0: #position mode
             return self.memory[self.memory[self.instructionPointer + paramNumber]]
-        if modes[paramNumber - 1] == 1:
+        if modes[paramNumber - 1] == 1: #immediate mode
             return self.memory[self.instructionPointer + paramNumber]
+        if modes[paramNumber - 1] == 2: #relative base mode
+            return self.memory[self.memory[self.instructionPointer + paramNumber] + self.relativeBase]
 
     def setValue(self, paramNumber, modes, value):
-        if modes[paramNumber - 1] == 1:
+        if modes[paramNumber - 1] == 1: #immediate mode
             self.memory[self.instructionPointer + paramNumber] = value
-        elif modes[paramNumber - 1] == 0:
+        elif modes[paramNumber - 1] == 0: #position mode
             self.memory[self.memory[self.instructionPointer + paramNumber]] = value
+        elif modes[paramNumber - 1] == 2: #relative base mode
+            self.memory[self.memory[self.instructionPointer + paramNumber] + self.relativeBase] = value
 
     def processOpCode(self, value):
         #pad zeros
