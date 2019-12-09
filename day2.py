@@ -1,3 +1,5 @@
+from intcode import Intcode
+
 def main():
     inputs = readInput('Inputs/day2.txt')
     part1(inputs)
@@ -7,9 +9,12 @@ def part1(inputs):
     inputs[1] = 12
     inputs[2] = 2
     vals = inputs[:]
-    
-    result = runProgram(vals)
-    print(result[0])
+
+    print(runProgram(vals)[0])
+
+    intcodeMachine = Intcode(vals)
+    intcodeMachine.run()
+    print(intcodeMachine.memory[0])
 
 def part2(inputs):
     result = 0
@@ -19,8 +24,9 @@ def part2(inputs):
             vals = inputs[:]
             vals[1] = i
             vals[2] = j
-            result = runProgram(vals)
-
+            intcodeRunner = Intcode(vals)
+            intcodeRunner.run()
+            result = intcodeRunner.memory
 
             if result[0] == 19690720:
                 print(100 * result[1] + result[2])
