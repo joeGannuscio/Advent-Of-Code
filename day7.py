@@ -57,9 +57,6 @@ def part2(inputs):
         if ampE.outputs[-1] > maxResult:
             maxResult = ampE.outputs[-1]
     print(maxResult)
-        
-
-
 
 def readInput(path):
     with open(path) as file:
