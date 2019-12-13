@@ -1,7 +1,7 @@
 class Intcode:
     def __init__(self, instructons, feedbackMode = False):
         self.memory = instructons
-        self.memory.extend([0]*10000)
+        self.memory.extend([0]*1000000)
         self.feedbackMode = feedbackMode
         self.instructionPointer = 0
         self.inputPointer = 0
