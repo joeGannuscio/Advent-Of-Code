@@ -1,6 +1,7 @@
 class Intcode:
     def __init__(self, instructons, feedbackMode = False):
         self.memory = instructons
+        self.memory.extend([0]*10000)
         self.feedbackMode = feedbackMode
         self.instructionPointer = 0
         self.inputPointer = 0
@@ -26,6 +27,8 @@ class Intcode:
                 self.setValue(3, modes, value)
                 self.instructionPointer += 4
             elif (opCode == 3): #input
+                if len(self.inputs) <= self.inputPointer:
+                    break
                 self.setValue(1, modes, self.inputs[self.inputPointer])
                 self.inputPointer += 1
                 self.instructionPointer += 2
