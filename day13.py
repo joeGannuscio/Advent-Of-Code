@@ -7,46 +7,59 @@ def main():
 
 def part1(input):
     intcodeRunner = Intcode(input)
+    tiles = {}
+    count = 0
 
     while not intcodeRunner.done:
         intcodeRunner.run()
 
-    tiles = intcodeRunner.outputs[2::3]
+    for i in range(0, len(intcodeRunner.outputs), 3):
+        x, y, tile = intcodeRunner.outputs[i:i+3]
+        tiles[(x,y)] = tile
 
-    print(tiles.count(2))
+    display(tiles)
+
+    for key, value in tiles.items():
+        if value == 2:
+            count += 1
+    print(count)
+
+def display(tiles):
+    minX = min(x for x,_ in tiles)
+    maxX = max(x for x,_ in tiles)
+    minY = min(y for _,y in tiles)
+    maxY = max(y for _,y in tiles)
+
+    height = maxY - minY + 1
+    width = maxX - minX + 1
+
+    grid = [[' '] * width for _ in range(height)]
+
+    chars = ' X#_o'
+
+    for y in range(height):
+        for x in range(width):
+            grid[y][x] = chars[tiles[(x,y)]]
+
+    screen = '\n'.join(''.join(grid[y]) for y in range(height))
+        
+    print(screen)
 
 def part2(input):
     intcodeRunner = Intcode(input)
-    intcodeRunner.memory[0] = 2
-    intcodeRunner.inputs = [0]
+    tiles = {}
     
     score = 0
     paddle = 0
 
     while not intcodeRunner.done:
         intcodeRunner.run()
-        outputs = [intcodeRunner.outputs[x:x+3] for x in range(0, len(intcodeRunner.outputs), 3)]
 
-        for output in outputs:
-            x = output[0]
-            y = output[1]
-            tile = output[2]
+        for i in range(0, len(intcodeRunner.outputs), 3):
+            x, y, tile = intcodeRunner.outputs[i:i+3]
+            tiles[(x,y)] = tile
 
-            if (x, y) == (-1, 0):
-                score = tile
-            if tile == 3:
-                print(f'paddle at ({x, y})')
-                paddle = x
-            elif tile == 4:
-                print(f'ball at ({x, y})')
-                if x > paddle:
-                    inp = 1
-                elif x < paddle:
-                    inp = -1
-
-                
-
-
+        print(display(tiles))
 
     print(score)
 
