@@ -100,6 +100,6 @@ class Intcode:
         value = f'{value:05}'
         digits = [int(digit) for digit in value]
         #last 2 are always opCode
-        opCode = int(str(digits[-2] + digits[-1]))
+        opCode = int(str(digits[-2]) + str(digits[-1]))
         modes = (digits[2], digits[1], digits[0])
         return opCode, modes
