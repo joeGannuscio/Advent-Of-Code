@@ -72,6 +72,8 @@ def read_input_file(path):
         lines = file.readlines()
         return [line.strip() for line in lines]
 
+
 if __name__ == '__main__':
     part1('Inputs/day8.txt')
     part2('Inputs/day8.txt')
+    
