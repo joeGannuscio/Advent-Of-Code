@@ -1,3 +1,6 @@
+import itertools
+from collections import defaultdict
+
 class Tile:
     
     def __init__(self, id, data):
@@ -8,28 +11,36 @@ class Tile:
         self.left = ''.join([row[0] for row in data])
         self.right = ''.join([row[-1] for row in data])
 
+
+    def get_sides_as_list(self):
+        return [self.top, self.bottom, self.left, self.right]
+
 def part1(input_file):
     inputs = read_input_file(input_file)
 
     tiles = []
+    matches = defaultdict(int)
 
     for input in inputs:
         tiles.append(Tile(input[1][:-1], input[2:]))
 
-    for i in range(len(tiles)):
-        for j in range(i+1, len(tiles)):
-            # check lr
-            if tiles[i].left == tiles[j].right:
-                print(f'{tiles[i].id} left of {tiles[j].id}')
-            # check rl
-            if tiles[i].right == tiles[j].left:
-                print(f'{tiles[i].id} right of {tiles[j].id}')
-            # check tb
-            if tiles[i].top == tiles[j].bottom:
-                print(f'{tiles[i].id} below {tiles[j].id}')
-            # check bt
-            if tiles[i].bottom == tiles[j].top:
-                print(f'{tiles[i].id} above {tiles[j].id}')
+    for x, y in itertools.combinations(tiles, 2):
+        x_sides = x.get_sides_as_list()
+        y_sides = y.get_sides_as_list()
+
+        for x_side in x_sides:
+            for y_side in y_sides:
+                if x_side == y_side or x_side == y_side[::-1]:
+                    matches[x.id] += 1
+                    matches[y.id] += 1
+
+    product = 1
+
+    for side, count in matches.items():
+        if count == 2:
+            product *= int(side)
+
+    print(product)
         
 
 
