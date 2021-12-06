@@ -1,4 +1,4 @@
-from functools import lru_cache
+from collections import deque
 
 
 def part1(input_file):
@@ -8,8 +8,35 @@ def part1(input_file):
 
 def part2(input_file):
     input = readInputFile(input_file)
-    run_simulation(input, 256)
+    
+    # get count of fish at each age
+    # fish with age 0 become age 6, add that amount to age 8
+    # return sum of all age counts
+
+    ages = get_age_counts(input)
+    run_smart_simulation(ages, 256)
+
+
     return
+
+
+def get_age_counts(school):
+    ages = [0] * 9
+    for fish in school:
+        ages[fish] += 1
+    return ages
+
+
+def run_smart_simulation(ages, duration):
+    age_queue = deque(ages)
+
+    for day in range(duration):
+        new_fish = age_queue.popleft()
+        # reset the 0 fish to 6
+        age_queue[6] += new_fish
+        # add the newly created fish to 8
+        age_queue.append(new_fish)
+    print(sum(age_queue))
 
 
 def run_simulation(school, duration):
@@ -17,7 +44,6 @@ def run_simulation(school, duration):
     new_fish = []
 
     for day in range(duration):
-        print(day)
         for fish in school:
             if fish > 0:
                 next_day.append(fish - 1)
