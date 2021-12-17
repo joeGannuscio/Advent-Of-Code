@@ -1,5 +1,7 @@
 from queue import PriorityQueue
 
+import numpy as np
+
 
 def part1(input_file):
     input = readInputFile(input_file)
@@ -9,7 +11,11 @@ def part1(input_file):
 
 def part2(input_file):
     input = readInputFile(input_file)
+    map = np.array(input)
+    map = make_big_map(map)
+    # map = np.block([[(map + i + j - 1) % 9 + 1 for i in range(5)] for j in range(5)])
 
+    print(find_path(map))
     return
 
 
@@ -30,6 +36,13 @@ def find_path(map):
                 point_risk = map[x][y]
                 queue.put((point_risk + risk, (x, y)))
                 visited.add((x, y))
+
+
+def make_big_map(map):
+    map = np.concatenate([map + i for i in range(5)], axis=0)
+    map = np.concatenate([map + j for j in range(5)], axis=1)
+    map[map > 9] -= 9
+    return map
 
 
 def readInputFile(path):
