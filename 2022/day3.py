@@ -1,5 +1,5 @@
 import string
-from tokenize import group
+
 
 def part1(input_path):
     input = read_input_file(input_path)
@@ -38,16 +38,17 @@ def find_shared(compartment1, compartment2):
         if item in compartment2:
             return item
 
+
 def find_badge(group1, group2, group3):
     return set(group1) & set(group2) & set(group3)
+
 
 def get_priority(item):
     priority = string.ascii_lowercase.index(item.lower()) + 1
     if item.isupper():
         return priority + 26
-    
-    return priority
 
+    return priority
 
 
 def read_input_file(path):
