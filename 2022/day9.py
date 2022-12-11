@@ -16,6 +16,12 @@ def part1(input_path):
 def part2(input_path):
     input = read_input_file(input_path)
 
+    knots = [(0, 0) for _ in range(10)]
+    tail_visited = []
+    for instruction in input:
+        knots, tail_visited = move_part2(knots, instruction[0], instruction[1], tail_visited)
+
+    print(len(set(tail_visited)))
     return
 
 
@@ -45,6 +51,47 @@ def move(head, tail, direction, distance, tail_visited = []):
                 tail = move_tail(tail, (x_h, y_h))
                 tail_visited.append(tail)
     return (x_h, y_h), tail, tail_visited
+
+
+def move_part2(knots, direction, distance, tail_visited = []):
+    head = knots[0]
+    x_h = head[0]
+    y_h = head[1]
+
+    match direction:
+        case 'R':
+            for _ in range(distance):
+                x_h += 1
+                knots[0] = (x_h, y_h)
+                # make each previous knot the new head and move the tail
+                for i in range(len(knots) - 1):
+                    knots[i + 1] = move_tail(knots[i + 1], knots[i])
+                tail_visited.append(knots[-1])
+        case 'L':
+            for _ in range(distance):
+                x_h -= 1
+                knots[0] = (x_h, y_h)
+                for i in range(len(knots) - 1):
+                    knots[i + 1] = move_tail(knots[i + 1], knots[i])
+                tail_visited.append(knots[-1])
+
+        case 'U':
+            for _ in range(distance):
+                y_h += 1
+                knots[0] = (x_h, y_h)
+                for i in range(len(knots) - 1):
+                    knots[i + 1] = move_tail(knots[i + 1], knots[i])
+                tail_visited.append(knots[-1])
+
+        case 'D':
+            for _ in range(distance):
+                y_h -= 1
+                knots[0] = (x_h, y_h)
+                for i in range(len(knots) - 1):
+                    knots[i + 1] = move_tail(knots[i + 1], knots[i])
+                tail_visited.append(knots[-1])
+
+    return knots, tail_visited
 
 
 def move_tail(tail, head):
