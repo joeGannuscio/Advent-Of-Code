@@ -1,4 +1,5 @@
 import re
+from math import lcm
 
 
 def part1(input_path):
@@ -22,10 +23,25 @@ def part1(input_path):
 def part2(input_path):
     input = read_input_file(input_path)
 
+    divs = [m.test for m in input]
+    lcm_check = lcm(*divs)
+
+    for i in range(10000):
+        print(f'round: {i}')
+        run_round(input, True, lcm_check)
+
+    inspections = []
+    for monkey in input:
+        inspections.append(monkey.inspections)
+
+    inspections.sort(reverse=True)
+
+    print(inspections[0] * inspections[1])
+
     return
 
 
-def run_round(monkeys):
+def run_round(monkeys, is_round_2 = False, lcm_check = 0):
     for monkey in monkeys:
         while monkey.items:
             item = monkey.items.pop(0)
@@ -38,7 +54,11 @@ def run_round(monkeys):
             monkey.new = eval(ops[1])
 
             # divide by 3
-            monkey.new = monkey.new // 3
+            if not is_round_2:
+                monkey.new = monkey.new // 3
+            else:
+                # had to google modular arithametic
+                monkey.new = monkey.new % lcm_check
 
             # test and pass
             if monkey.new % monkey.test == 0:
