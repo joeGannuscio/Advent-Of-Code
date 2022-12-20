@@ -16,7 +16,15 @@ def part1(input_path):
 
 
 def part2(input_path):
-    input = read_input_file(input_path)
+    cave = read_input_file(input_path)
+
+    floors = [c[1] for c in cave]
+    floor = max(floors) + 1
+    count = 0
+    while drop_sand2(cave, floor):
+        count += 1
+
+    print(count)  # this solution is off by 1 for some reason...
 
     return
 
@@ -51,6 +59,43 @@ def drop_sand(cave, floor):
         return True
 
     return False
+
+
+def drop_sand2(cave, floor):
+    # sand starts at 500, 0
+    # falls 1 step at a time
+    # check directly below, then down left, then down right
+    # infinite floor, sand is blocked when sand rises to 500, 0
+
+    sx, sy = 500, 0
+
+    while sy < floor:
+        # check down
+        if (sx, sy + 1) not in cave:
+            sy += 1
+            continue
+
+        # check left
+        if (sx - 1, sy + 1) not in cave:
+            sx -= 1
+            sy += 1
+            continue
+
+        # check right
+        if (sx + 1, sy + 1) not in cave:
+            sx += 1
+            sy += 1
+            continue
+
+        if (sx, sy) == (500, 0):
+            return False
+        cave.add((sx, sy))
+
+        return True
+
+    # hits the floor
+    cave.add((sx, sy))
+    return True
 
 
 def read_input_file(path):
