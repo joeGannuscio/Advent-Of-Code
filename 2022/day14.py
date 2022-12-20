@@ -1,8 +1,8 @@
 from itertools import pairwise
 
+
 def part1(input_path):
-    input = read_input_file(input_path)
-    cave = build_cave(input)
+    cave = read_input_file(input_path)
 
     floors = [c[1] for c in cave]
     floor = max(floors)
@@ -53,36 +53,28 @@ def drop_sand(cave, floor):
     return False
 
 
-def build_cave(input):
-    cave = set()
-    for start, end in pairwise(input):
-
-        # vertical
-        if start[0] == end[0]:
-            x = start[0]
-            ys = [start[1], end[1]]
-            for i in range(min(ys), max(ys) + 1):
-                cave.add((x, i))
-
-        # horizontal
-        elif start[1] == end[1]:
-            xs = [start[0], end[0]]
-            y = start[1]
-            for i in range(min(xs), max(xs) + 1):
-                cave.add((i, y))
-
-    return cave
-
-
 def read_input_file(path):
     with open(path) as file:
-        coords = []
+        cave = set()
         for line in file.readlines():
-            for coord in line.strip().split('->'):
-                x, y = coord.strip().split(',')
-                coords.append((int(x), int(y)))
+            coords = line.split(' -> ')
+            pts = []
+            for c in coords:
+                c = c.split(',')
+                pts.append((int(c[0]), int(c[1])))
 
-    return coords
+            for p1, p2 in pairwise(pts):
+                p1x, p1y = p1
+                p2x, p2y = p2
+
+                if p1x == p2x:
+                    for i in range(min(p1y, p2y), max(p1y, p2y) + 1):
+                        cave.add((p1x, i))
+                else:
+                    for j in range(min(p1x, p2x), max(p1x, p2x) + 1):
+                        cave.add((j, p1y))
+
+    return cave
 
 
 if __name__ == '__main__':
