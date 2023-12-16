@@ -59,5 +59,5 @@ def read_input_file(path):
 
 
 if __name__ == '__main__':
-    part1('Inputs/day13.txt')
-    part2('Inputs/day13.txt')
+    part1('Inputs/day15.txt')
+    part2('Inputs/day15.txt')
